@@ -37,9 +37,6 @@ OpaInvaders = {{
       | _ -> g
     game.set(g)
 
-  @client clean_frame(ctx:Canvas.context) =
-    Canvas.clear_rect(ctx, 0, 0, 1024, 768)
-
   @client draw_bg(ctx, color) =
     do Canvas.set_fill_style(ctx, ~{color})
     do Canvas.fill_rect(ctx, 0, 0, 1024, 768)
@@ -55,9 +52,9 @@ OpaInvaders = {{
       |> Bullets.check
 
     /* Draw the game */
-    do clean_frame(ctx)
     do draw_bg(ctx, Color.black)
     do Bullets.draw(ctx, g.bullets)
+    do Infos.draw(ctx, g)
     do Invaders.draw(ctx, g.invaders)
     do Explosions.draw(ctx, g.explosions)
     do Player.draw(ctx, g.player)

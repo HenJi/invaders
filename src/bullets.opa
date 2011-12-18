@@ -63,7 +63,13 @@ Bullets = {{
         match hit with
         | {none} -> g
         | {some=dead} ->
-          squad = Map.remove(dead, i.squad)
+          (squad, d) = Map.extract(dead, i.squad)
+          points = match d with
+            | {some={inv_a}} -> 10
+            | {some={inv_b}} -> 20
+            | {some={inv_c}} -> 40
+            | _ -> 0
+          score = g.score + points
           first = if dead.x != i.first then i.first
             else
               Map.fold(
@@ -86,7 +92,7 @@ Bullets = {{
             new = {ex_type={simple} lifespan=20
                    pos=Invaders.get_position(invaders.position, dead)}
             [new|g.explosions]
-          {g with ~invaders ~bullets ~explosions}
+          {g with ~invaders ~bullets ~explosions ~score}
         end
     g
 
