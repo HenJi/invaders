@@ -35,6 +35,7 @@ type OpaInvaders.invaders = {
   // Engine value
   first : int // first populated column
   last : int // last populated column
+  lines : int
   loop : int
   state : {a} / {b}
 }

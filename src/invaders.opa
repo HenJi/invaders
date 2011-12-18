@@ -35,7 +35,8 @@
             ({x=cur.x+1 y=cur.y}, {right}, true)
           else
             ({x=cur.x y=cur.y+line}, {left}, false)
-    position = {position with y=Int.min(180, position.y)}
+    max_y = 170 - 14 * i.lines
+    position = {position with y=Int.min(max_y, position.y)}
     speed =
       if sameline then i.speed
       else Int.max(1, i.speed-2)

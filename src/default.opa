@@ -15,6 +15,7 @@ Default = {{
     movement = {right}
     first = 0
     last = 10
+    lines = 4
     loop = 0
     state = {a}
   } : OpaInvaders.invaders
