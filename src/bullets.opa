@@ -1,5 +1,7 @@
 Bullets = {{
 
+  anim_frames = 4
+
   draw(ctx:Canvas.context, b:OpaInvaders.bullets) =
     do match b.player with
       | {none} -> void
@@ -10,7 +12,7 @@ Bullets = {{
         Canvas.restore(ctx)
     do List.iter(
       bullet ->
-        model = match (bullet.b_type, bullet.anim/5) with
+        model = match (bullet.b_type, bullet.anim/anim_frames) with
           | ({b_a}, 0) -> Models.bullet_a_1
           | ({b_a}, 1) -> Models.bullet_a_2
           | ({b_a}, 2) -> Models.bullet_a_3
@@ -33,7 +35,7 @@ Bullets = {{
       bullet ->
         if bullet.pos.y > 190 then none
         else
-          anim = mod(bullet.anim+1, 20)
+          anim = mod(bullet.anim+1, 4*anim_frames)
           pos = {bullet.pos with y=bullet.pos.y+1}
           some({bullet with ~anim ~pos}),
       g.bullets.inv)
