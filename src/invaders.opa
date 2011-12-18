@@ -51,7 +51,7 @@
 
   fire(g:OpaInvaders.game) =
     try_fire() =
-      proba = 250*g.invaders.speed
+      proba = 500*g.invaders.speed
       Random.int(proba) == proba/2
     new_bullets = Map.fold(
       pos_in_squad, invader, acc ->
