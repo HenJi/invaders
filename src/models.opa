@@ -32,7 +32,7 @@
       |> Dom.of_xhtml |> Dom.put_at_end(#prerender_area, _)
     ~{id width height}
 
-  draw_at(ctx:Canvas.context, pos:pos, model, _) =
+  draw_at(ctx:Canvas.context, pos:pos, model, _:color) =
     match Canvas.get(#{model.id}) with
     | {none} -> jlog("no image ({model})")
     | {some=canvas} ->
@@ -143,5 +143,84 @@ alien = "
    0        0   
 " |> of_string
   |> pre_render("alien", _, Color.red)
+
+explosion = "
+     0      
+ 0   0  0   
+  0     0  0
+   0   0  0 
+00          
+          00
+ 0  0   0   
+0  0     0  
+   0  0   0 
+      0     
+" |> of_string
+  |> pre_render("explosion", _, Color.white)
+
+bullet_a_1 = "
+ 0 
+000
+ 0 
+ 0 
+ 0 
+" |> of_string
+  |> pre_render("bullet_a_1", _, Color.white)
+
+bullet_a_2 = "
+ 0 
+ 0 
+000
+ 0 
+ 0 
+" |> of_string
+  |> pre_render("bullet_a_2", _, Color.white)
+
+bullet_a_3 = "
+ 0 
+ 0 
+ 0 
+000
+ 0 
+" |> of_string
+  |> pre_render("bullet_a_3", _, Color.white)
+
+bullet_a_4 = bullet_a_2
+
+bullet_b_1 = "
+ 0 
+  0
+ 0 
+0  
+ 0 
+" |> of_string
+  |> pre_render("bullet_b_1", _, Color.white)
+
+bullet_b_2 = "
+0  
+ 0 
+  0
+ 0 
+0  
+" |> of_string
+  |> pre_render("bullet_b_2", _, Color.white)
+
+bullet_b_3 = "
+ 0 
+0  
+ 0 
+  0
+ 0 
+" |> of_string
+  |> pre_render("bullet_b_3", _, Color.white)
+
+bullet_b_4 = "
+  0
+ 0 
+0  
+ 0 
+  0
+" |> of_string
+  |> pre_render("bullet_b_4", _, Color.white)
 
 }}

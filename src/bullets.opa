@@ -8,6 +8,19 @@ Bullets = {{
         do Canvas.set_fill_style(ctx, {color=Color.white})
         do Canvas.fill_rect(ctx, 4*pos.x, 4*pos.y, 4, 16)
         Canvas.restore(ctx)
+    do List.iter(
+      bullet ->
+        model = match (bullet.b_type, bullet.anim/5) with
+          | ({b_a}, 0) -> Models.bullet_a_1
+          | ({b_a}, 1) -> Models.bullet_a_2
+          | ({b_a}, 2) -> Models.bullet_a_3
+          | ({b_a}, _) -> Models.bullet_a_4
+          | ({b_b}, 0) -> Models.bullet_b_1
+          | ({b_b}, 1) -> Models.bullet_b_2
+          | ({b_b}, 2) -> Models.bullet_b_3
+          | ({b_b}, _) -> Models.bullet_b_4
+        Models.draw_at(ctx, bullet.pos, model, Color.white),
+      b.inv)
     void
 
   move(g:OpaInvaders.game) =
@@ -16,7 +29,15 @@ Bullets = {{
       | {some=pos} ->
         if pos.y < 0 then none
         else some({pos with y=pos.y-3})
-    bullets = {g.bullets with ~player}
+    inv = List.filter_map(
+      bullet ->
+        if bullet.pos.y > 190 then none
+        else
+          anim = mod(bullet.anim+1, 20)
+          pos = {bullet.pos with y=bullet.pos.y+1}
+          some({bullet with ~anim ~pos}),
+      g.bullets.inv)
+    bullets = {g.bullets with ~player ~inv}
     {g with ~bullets}
 
   check_hit(pos, x:int, y:int, w:int, h:int) =

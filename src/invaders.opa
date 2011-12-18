@@ -46,6 +46,24 @@
         | {a} -> {b}
         | {b} -> {a}
     invaders = {i with ~speed ~position ~movement ~loop ~state}
-    {g with ~invaders}
+    if loop != 0 then {g with ~invaders}
+    else fire({g with ~invaders})
+
+  fire(g:OpaInvaders.game) =
+    try_fire() =
+      proba = 250*g.invaders.speed
+      Random.int(proba) == proba/2
+    new_bullets = Map.fold(
+      pos_in_squad, invader, acc ->
+        if try_fire() then
+          b_type = if Random.int(2) == 1 then {b_a} else {b_b}
+          model = Models.get_inv_model(invader, g.invaders.state)
+          p = get_position(g.invaders.position, pos_in_squad)
+          pos = {x=p.x+model.width/2 y=p.y+model.height}
+          [{~b_type ~pos anim=0}|acc]
+        else acc,
+      g.invaders.squad, [])
+    {g with bullets =
+      {g.bullets with inv=List.append(new_bullets, g.bullets.inv)}}
 
 }}

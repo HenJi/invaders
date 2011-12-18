@@ -21,8 +21,19 @@ type pos = {
   y : int
 }
 
+type OpaInvaders.inv_bullet_t =
+    { b_a }
+  / { b_b }
+
+type OpaInvaders.inv_bullet = {
+  b_type : OpaInvaders.inv_bullet_t
+  pos : pos
+  anim : int
+}
+
 type OpaInvaders.bullets = {
   player : option(pos)
+  inv : list(OpaInvaders.inv_bullet)
 }
 
 type OpaInvaders.invaders = {

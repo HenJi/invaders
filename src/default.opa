@@ -27,6 +27,7 @@ Default = {{
 
   bullets = {
     player = none
+    inv = []
   } : OpaInvaders.bullets
 
   game = {
