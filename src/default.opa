@@ -33,6 +33,7 @@ Default = {{
   game = {
     lives = 3
     score = 0
+    explosions = []
     ~player ~invaders ~bullets
   } : OpaInvaders.game
 

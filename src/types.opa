@@ -4,6 +4,16 @@ type OpaInvaders.game = {
   player : OpaInvaders.player
   invaders : OpaInvaders.invaders
   bullets : OpaInvaders.bullets
+  explosions : list(OpaInvaders.explosion)
+}
+
+type OpaInvaders.explosion_type =
+    { simple }
+
+type OpaInvaders.explosion = {
+  ex_type : OpaInvaders.explosion_type
+  lifespan : int
+  pos : pos
 }
 
 type OpaInvaders.player = {

@@ -82,7 +82,11 @@ Bullets = {{
           do Dom.transform([#debug <- "{first} - {last} ({lines})"])
           invaders = {i with ~squad ~first ~last ~lines}
           bullets = {g.bullets with player=none}
-          {g with ~invaders ~bullets}
+          explosions =
+            new = {ex_type={simple} lifespan=20
+                   pos=Invaders.get_position(invaders.position, dead)}
+            [new|g.explosions]
+          {g with ~invaders ~bullets ~explosions}
         end
     g
 

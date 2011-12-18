@@ -51,6 +51,7 @@ OpaInvaders = {{
       |> Invaders.move
       |> Player.move
       |> Bullets.move
+      |> Explosions.consume
       |> Bullets.check
 
     /* Draw the game */
@@ -58,6 +59,7 @@ OpaInvaders = {{
     do draw_bg(ctx, Color.black)
     do Bullets.draw(ctx, g.bullets)
     do Invaders.draw(ctx, g.invaders)
+    do Explosions.draw(ctx, g.explosions)
     do Player.draw(ctx, g.player)
     game.set(g)
 
