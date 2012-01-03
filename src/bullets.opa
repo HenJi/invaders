@@ -21,7 +21,11 @@ Bullets = {{
           | ({b_b}, 1) -> Models.bullet_b_2
           | ({b_b}, 2) -> Models.bullet_b_3
           | ({b_b}, _) -> Models.bullet_b_4
-        Models.draw_at(ctx, bullet.pos, model, Color.white),
+        pos = {
+          x = bullet.pos.x - model.width/2
+          y = bullet.pos.y - model.height + 1
+        }
+        Models.draw_at(ctx, pos, model, Color.white),
       b.inv)
     void
 
@@ -42,7 +46,7 @@ Bullets = {{
     bullets = {g.bullets with ~player ~inv}
     {g with ~bullets}
 
-  check_hit(pos, x:int, y:int, w:int, h:int) =
+  check_hit(pos, (x:int, y:int, w:int, h:int)) =
     pos.x > x && pos.x < x+w && pos.y > y && pos.y < y+h
 
   check(g:OpaInvaders.game) =
@@ -50,9 +54,7 @@ Bullets = {{
       | {none} -> g
       | {some=pos} ->
         i = g.invaders
-        hit_big =
-          (x, y, w, h) = Invaders.get_squad_box(g.invaders)
-          check_hit(pos, x, y, w, h)
+        hit_big = check_hit(pos, Invaders.get_squad_box(g.invaders))
         hit =
           if hit_big then
             Map.fold(
@@ -61,7 +63,7 @@ Bullets = {{
                 else
                   model = Models.get_inv_model(inv, i.state)
                   ~{x y} = Invaders.get_position(i.position, rpos)
-                  if check_hit(pos, x, y, model.width, model.height) then
+                  if check_hit(pos, (x, y, model.width, model.height)) then
                     some(rpos)
                   else none,
               i.squad, none)
@@ -99,6 +101,20 @@ Bullets = {{
             [new|g.explosions]
           {g with ~invaders ~bullets ~explosions ~score}
         end
+    p_hitbox = Player.get_hitbox(g.player)
+    p_hit = List.fold(
+      b, res -> check_hit(b.pos, p_hitbox) || res,
+      g.bullets.inv, false)
+    g =
+      if p_hit then
+        lives = g.lives - 1
+        if lives < 0 then
+          {g with state = {game_over}}
+        else
+          {g with ~lives
+            bullets = Default.bullets
+            state = {death_pause=60}}
+      else g
     g
 
 }}

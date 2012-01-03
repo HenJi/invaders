@@ -55,6 +55,7 @@ OpaInvaders = {{
     do Canvas.save(ctx)
     do Canvas.set_stroke_style(ctx, {color=Color.red})
     do Invaders.get_squad_box(g.invaders) |> qstr
+    do Player.get_hitbox(g.player) |> qstr
     Canvas.restore(ctx)
 
   @client next_frame(ctx)() =
@@ -68,7 +69,11 @@ OpaInvaders = {{
         |> Explosions.consume
         |> Bullets.check
       | {death_pause=n} ->
-        {g with state = {death_pause=(n-1)}}
+        if n < 0 then
+          {g with
+            state = {running}
+            player = Default.player}
+        else {g with state = {death_pause=(n-1)}}
       | _ -> g
 
     /* Draw the game */
@@ -77,7 +82,7 @@ OpaInvaders = {{
     do Infos.draw(ctx, g)
     do Invaders.draw(ctx, g.invaders)
     do Explosions.draw(ctx, g.explosions)
-    do Player.draw(ctx, g.player)
+    do Player.draw(ctx, g.player, g.state)
     do State.draw(ctx, g.state)
     // do debug_hitbox(ctx, g)
     game.set(g)
