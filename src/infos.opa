@@ -14,7 +14,7 @@ Infos = {{
       Models.draw_at(ctx, {x=45 y=1}, Models.player, Color.lime)
     do Canvas.set_font(ctx, "bold 28px Arial")
     do Canvas.fill_text(ctx, "Score:", 800, 32)
-    do Canvas.set_fill_style(ctx, {color=Color.lime})
+    do Canvas.set_fill_style(ctx, {color=Color.green})
     do Canvas.fill_text(ctx, "{g.score}", 800+Canvas.measure_text(ctx, "Score: "), 32)
     Canvas.restore(ctx)
 
