@@ -48,6 +48,7 @@
     | ({inv_c}, {b}) -> inv_c_b
 
   inv_color = Color.white
+  player_color = Color.green
 
 inv_a_a = "
     0000    
@@ -121,29 +122,6 @@ inv_c_b= "
 " |> of_string
   |> pre_render("inv_c_b", _, inv_color)
 
-player = "
-        0        
-       000       
-       000       
- 000000000000000 
-00000000000000000
-00000000000000000
-00000000000000000
-00000000000000000
-" |> of_string
-  |> pre_render("player", _, Color.green)
-
-alien = "
-     000000     
-   0000000000   
-  000000000000  
- 00 00 00 00 00 
-0000000000000000
-  000  00  000  
-   0        0   
-" |> of_string
-  |> pre_render("alien", _, Color.red)
-
 explosion = "
      0      
  0   0  0   
@@ -157,6 +135,41 @@ explosion = "
       0     
 " |> of_string
   |> pre_render("explosion", _, Color.white)
+
+alien = "
+     000000     
+   0000000000   
+  000000000000  
+ 00 00 00 00 00 
+0000000000000000
+  000  00  000  
+   0        0   
+" |> of_string
+  |> pre_render("alien", _, Color.red)
+
+player = "
+        0        
+       000       
+       000       
+ 000000000000000 
+00000000000000000
+00000000000000000
+00000000000000000
+00000000000000000
+" |> of_string
+  |> pre_render("player", _, player_color)
+
+player_explosion = "
+ 0      0      0  
+    0             
+  0    0     0    
+      0    0   0  
+ 0   00  0        
+    000000000  0  
+   00000000000    
+00000000000000000  
+" |> of_string
+  |> pre_render("player_explosion", _, player_color)
 
 bullet_a_1 = "
  0 
