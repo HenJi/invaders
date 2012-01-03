@@ -31,6 +31,7 @@ Default = {{
   } : OpaInvaders.bullets
 
   game = {
+    state = {running}
     lives = 3
     score = 0
     explosions = []

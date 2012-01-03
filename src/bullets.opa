@@ -85,7 +85,6 @@ Bullets = {{
               Map.fold(
                 p, _, max -> Int.max(p.y, max),
                 squad, 0)
-          do Dom.transform([#debug <- "{first} - {last} ({lines})"])
           invaders = {i with ~squad ~first ~last ~lines}
           bullets = {g.bullets with player=none}
           explosions =

@@ -1,4 +1,5 @@
 type OpaInvaders.game = {
+  state : OpaInvaders.game_state
   lives : int
   score : int
   player : OpaInvaders.player
@@ -6,6 +7,12 @@ type OpaInvaders.game = {
   bullets : OpaInvaders.bullets
   explosions : list(OpaInvaders.explosion)
 }
+
+type OpaInvaders.game_state =
+    { running }
+  / { death_pause : int }
+  / { pause }
+  / { game_over }
 
 type OpaInvaders.explosion_type =
     { simple }

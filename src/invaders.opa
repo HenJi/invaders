@@ -1,9 +1,12 @@
 @client Invaders = {{
 
+  x_sep = 15
+  y_sep = 13
+
   get_position(squad_pos, ~{x y}) =
     dx = squad_pos.x
     dy = squad_pos.y
-    {x=15*x+dx y=13*y+dy}
+    {x=x_sep*x+dx y=y_sep*y+dy}
 
   draw(ctx:Canvas.context, i:OpaInvaders.invaders) =
     Map.iter(

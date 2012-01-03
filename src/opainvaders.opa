@@ -8,12 +8,13 @@ OpaInvaders = {{
   @client keyd(e) =
     g = game.get()
     key = e.key_code ? -1
-    g = match key with
-      | 37 -> // left
+    do Dom.transform([#debug <- key])
+    g = match (g.state, key) with
+      | ({running}, 37) -> // left
         {g with player={g.player with movement={left}}}
-      | 39 -> // right
+      | ({running}, 39) -> // right
         {g with player={g.player with movement={right}}}
-      | 32 -> // space
+      | ({running}, 32) -> // space
         match g.bullets.player with
         | {some=_} -> g
         | {none} ->
@@ -21,8 +22,14 @@ OpaInvaders = {{
             player=some({x=g.player.position+8 y=179})}
           {g with ~bullets}
         end
-      | 80 -> // p
-        g
+      | ({running}, 80) -> // p
+        {g with
+          player={g.player with movement={none}}
+          state = {pause}}
+      | ({pause}, 80) -> // p
+        {g with state = {running}}
+      | ({game_over}, 82) -> // r
+        Default.game
       | _ -> g
     game.set(g)
 
@@ -45,11 +52,16 @@ OpaInvaders = {{
   @client next_frame(ctx)() =
     /* Move the game */
     g = game.get()
-      |> Invaders.move
-      |> Player.move
-      |> Bullets.move
-      |> Explosions.consume
-      |> Bullets.check
+    g = match g.state with
+      | {running} -> g
+        |> Invaders.move
+        |> Player.move
+        |> Bullets.move
+        |> Explosions.consume
+        |> Bullets.check
+      | {death_pause=n} ->
+        {g with state = {death_pause=(n-1)}}
+      | _ -> g
 
     /* Draw the game */
     do draw_bg(ctx, Color.black)
@@ -58,6 +70,7 @@ OpaInvaders = {{
     do Invaders.draw(ctx, g.invaders)
     do Explosions.draw(ctx, g.explosions)
     do Player.draw(ctx, g.player)
+    do State.draw(ctx, g.state)
     game.set(g)
 
   @client resize() =

@@ -1,4 +1,4 @@
-Explosions = {{
+@client Explosions = {{
 
   draw(ctx, explosions:list(OpaInvaders.explosion)) =
     List.iter(
