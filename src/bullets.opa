@@ -50,16 +50,22 @@ Bullets = {{
       | {none} -> g
       | {some=pos} ->
         i = g.invaders
-        hit = Map.fold(
-          rpos, inv, hit ->
-            if Option.is_some(hit) then hit
-            else
-              model = Models.get_inv_model(inv, i.state)
-              ~{x y} = Invaders.get_position(i.position, rpos)
-              if check_hit(pos, x, y, model.width, model.height) then
-                some(rpos)
-              else none,
-          i.squad, none)
+        hit_big =
+          (x, y, w, h) = Invaders.get_squad_box(g.invaders)
+          check_hit(pos, x, y, w, h)
+        hit =
+          if hit_big then
+            Map.fold(
+              rpos, inv, hit ->
+                if Option.is_some(hit) then hit
+                else
+                  model = Models.get_inv_model(inv, i.state)
+                  ~{x y} = Invaders.get_position(i.position, rpos)
+                  if check_hit(pos, x, y, model.width, model.height) then
+                    some(rpos)
+                  else none,
+              i.squad, none)
+          else none
         match hit with
         | {none} -> g
         | {some=dead} ->

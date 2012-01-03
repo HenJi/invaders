@@ -49,6 +49,14 @@ OpaInvaders = {{
     do Canvas.fill_rect(ctx, 0, 0, 1024, 768)
     Canvas.restore(ctx)
 
+  @client debug_hitbox(ctx, g) =
+    qstr((x, y, w, h)) =
+      Canvas.stroke_rect(ctx, 4*x, 4*y, 4*w, 4*h)
+    do Canvas.save(ctx)
+    do Canvas.set_stroke_style(ctx, {color=Color.red})
+    do Invaders.get_squad_box(g.invaders) |> qstr
+    Canvas.restore(ctx)
+
   @client next_frame(ctx)() =
     /* Move the game */
     g = game.get()
@@ -71,6 +79,7 @@ OpaInvaders = {{
     do Explosions.draw(ctx, g.explosions)
     do Player.draw(ctx, g.player)
     do State.draw(ctx, g.state)
+    // do debug_hitbox(ctx, g)
     game.set(g)
 
   @client resize() =

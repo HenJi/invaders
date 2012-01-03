@@ -3,6 +3,13 @@
   x_sep = 15
   y_sep = 13
 
+  get_squad_box(i:OpaInvaders.invaders) = (
+    i.position.x + Invaders.x_sep * i.first,
+    i.position.y,
+    Invaders.x_sep * (1 + i.last - i.first),
+    Invaders.y_sep * (1 + i.lines)
+  )
+
   get_position(squad_pos, ~{x y}) =
     dx = squad_pos.x
     dy = squad_pos.y
